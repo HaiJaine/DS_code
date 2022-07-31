@@ -13,8 +13,8 @@ bool InitSeqList(SeqList &L) {
 }
 
 void AddTestData(SeqList &L) {
-    int data[] = {3, 5, 9, 7, 2};
-    for (int i = 0; i < 5; i++) {
+    int data[] = {3, 5, 9, 7, 2, 6};
+    for (int i = 0; i < sizeof(data) / sizeof(data[0]); i++) {
         L.data[i] = data[i];
         L.length++;
     }
@@ -43,11 +43,18 @@ int DelMinElem(SeqList &L) {
         }
     }
     int e = L.data[j];//将最小值保存下来，待后面返回使用
-    for (int i = j; i < L.length - 1; i++) {//开始删除最小值
-        L.data[i] = L.data[i + 1];
-    }
-    L.length--;//删除后顺序表长度减一
+    L.data[j] = L.data[L.length - 1];
+    L.length--;
     return e;//返回最小值
+}
+
+//顺序表逆序
+void ReversSeqList(SeqList &L) {
+    for (int i = 0; i < L.length / 2; i++) {
+        int temp = L.data[i];
+        L.data[i] = L.data[L.length - i - 1];
+        L.data[L.length - i - 1] = temp;
+    }
 }
 
 int main() {
@@ -55,9 +62,11 @@ int main() {
     InitSeqList(L);
     AddTestData(L);
     ShowSeqList(L);
-    for (int i = 0; i < 6; i++) {
-        cout << "》》》删除的元素为：" << DelMinElem(L) << endl;
-        ShowSeqList(L);
-    }
+//    for (int i = 0; i < 6; i++) {
+//        cout << "》》》删除的元素为：" << DelMinElem(L) << endl;
+//        ShowSeqList(L);
+//    }
+    ReversSeqList(L);
+    ShowSeqList(L);
     return 0;
 }
